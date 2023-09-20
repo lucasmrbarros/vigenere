@@ -3,8 +3,6 @@ import cypher, decypher, breaking
 exit_flag = 0
 
 while exit_flag == 0:
-    key = ''
-    encrypted_text = ''
     print('________________________________')
     print('Qual operação deseja executar? ')
     print('1 - Cifração')
@@ -17,30 +15,29 @@ while exit_flag == 0:
 
     if choice == 1:
         print('Digite o texto a ser cifrado:')
-        plain_text = ''
-        input(plain_text)
+        plain_text = input()
 
         print('Digite o texto a chave: ')
-        input(key)
+        key = input()
 
         encrypted = cypher.encrypet(plain_text, key)
         print('Texto cifrado: ', encrypted)
 
     elif choice == 2:
         print('Digite o texto criptografado: ')
-        input(encrypted_text)
+        encrypted_text = input()
         print('Digite a chave: ')
-        input(key)
+        key = input()
 
         plain_text = decypher.decrypet(encrypted_text, key)
         print('A mensagem original é: ', plain_text)
 
     elif choice == 3:
         print('Digite o texto que cripotografado que deseja quebrar: ')
-        input(encrypted_text)
+        encrypted_text = input()
 
         key = breaking.breakingTheLaw(encrypted_text)
-        print('A chave é: ',key)
+        print('A chave é: ', key)
 
     elif choice == 0:
         exit_flag = 1

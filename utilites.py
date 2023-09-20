@@ -11,7 +11,7 @@ def trim(plain_text, key):
 
     return suitable_key
 
-#this function converts the letter to the alphabetic numer  and vice-versa
+#this function converts the letter to the alphabetic numebr and vice-versa
 def alphabetDict(value):
     alphabet_to_number = {lettera: indice for indice, lettera in enumerate('abcdefghijklmnopqrstuvwxyz')}
 
