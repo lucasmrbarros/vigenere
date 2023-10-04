@@ -1,4 +1,5 @@
 import cypher, decypher, breaking
+import  re
 
 exit_flag = 0
 
@@ -16,7 +17,8 @@ while exit_flag == 0:
     if choice == 1:
         print('Digite o texto a ser cifrado:')
         plain_text = input()
-        plain_text = str(plain_text).lower().replace(" ", "",).replace(".", "").replace(",", "")
+        #plain_text = str(plain_text).lower().replace(" ", "",).replace(".", "").replace(",", "")
+        plain_text = re.sub(r'[^a-z\n]', '', plain_text.lower())
 
         print('Digite a chave: ')
         key = input()
@@ -28,7 +30,7 @@ while exit_flag == 0:
     elif choice == 2:
         print('Digite o texto criptografado: ')
         encrypted_text = input()
-        encrypted_text = str(encrypted_text).lower().replace(" ", "",).replace(".", "").replace(",", "")
+        encrypted_text = re.sub(r'[^a-z\n]', '', encrypted_text.lower())
 
         print('Digite a chave: ')
         key = input()
@@ -40,14 +42,20 @@ while exit_flag == 0:
     elif choice == 3:
         print('Digite o texto que cripotografado que deseja quebrar: ')
         encrypted_text = input()
-        encrypted_text = str(encrypted_text).lower().replace(" ", "",).replace(".", "").replace(",", "")
+        encrypted_text = re.sub(r'[^a-z\n]', '', encrypted_text.lower())
 
         print('Valores muito distantes ou menores do tamanho da chave geram inconsistências')
         print('Informe o valor maximo da chave: ')
 
         max_key_len = int(input())
 
-        key = breaking.breakingTheLaw(encrypted_text, max_key_len)
+        print('Selecione o idioma para tentar o ataque:')
+        print('1- portugues')
+        print('2- Inglês')
+
+        lenguage = int(input())
+
+        key = breaking.breakingTheLaw(encrypted_text, max_key_len, lenguage)
         print('A chave é: ', key)
 
     elif choice == 0:

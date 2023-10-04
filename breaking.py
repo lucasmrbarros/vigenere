@@ -1,10 +1,17 @@
-import utilites
+import breakingToolsPt
+import  breakingToolsEn
 
-def breakingTheLaw (encripeted, max_key_len):
+def breakingTheLaw (encripeted, max_key_len, lenguage):
 
-    key_size = utilites.key_size(encripeted, max_key_len)
+    if lenguage == 1:
+        key_size = breakingToolsPt.key_size(encripeted, max_key_len)
 
-    key = utilites.key_refactor(encripeted, key_size)
+        key = breakingToolsPt.key_refactor(encripeted, key_size)
+
+    else:
+        key_size = breakingToolsEn.key_size(encripeted, max_key_len)
+
+        key = breakingToolsEn.key_refactor(encripeted, key_size)
 
     return key
 
