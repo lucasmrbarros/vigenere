@@ -35,10 +35,44 @@ pt_freq = {'a': 0.1463,
 
 pt_index_of_coincidence = 0.0725
 
+en_freq = {'a': 0.0817,
+           'b': 0.0149,
+           'c': 0.0278,
+           'd': 0.0425,
+           'e': 0.1270,
+           'f': 0.0223,
+           'g': 0.0202,
+           'h': 0.0609,
+           'i': 0.0697,
+           'j': 0.0015,
+           'k': 0.0077,
+           'l': 0.0403,
+           'm': 0.0241,
+           'n': 0.0675,
+           'o': 0.0751,
+           'p': 0.0193,
+           'q': 0.0010,
+           'r': 0.0599,
+           's': 0.0633,
+           't': 0.0906,
+           'u': 0.0276,
+           'v': 0.0098,
+           'w': 0.0236,
+           'x': 0.0015,
+           'y': 0.0197,
+           'z': 0.0007}
+
+en_index_of_coincidence = 0.067
+
 # this method attempts to find the length of the key
-def key_size(encripeted, max_key_len):
+def key_size(encripeted, max_key_len, lenguage):
     min_diff = maxsize
     key_len = 0
+
+    if lenguage == 1:
+        index_of_coincidence = pt_index_of_coincidence
+    else:
+        index_of_coincidence = en_index_of_coincidence
 
     for candidate_length in range(1, max_key_len + 1):
         groups, last_group = get_blocks(text=encripeted, size=candidate_length)
@@ -46,8 +80,8 @@ def key_size(encripeted, max_key_len):
         ics = [coincidence_index(letter_counter=get_Letter_Counts(encripeted=column)) for column in columns]
         delta_bar_ic = sum(ics) / len(ics)
 
-        if pt_index_of_coincidence - delta_bar_ic < min_diff:
-            min_diff = pt_index_of_coincidence - delta_bar_ic
+        if index_of_coincidence - delta_bar_ic < min_diff:
+            min_diff = index_of_coincidence - delta_bar_ic
             key_len = candidate_length
 
     return key_len
@@ -125,18 +159,21 @@ def shift(text, amount):
 
 
 # Correlation function
-def correlation(text, lf):
-    return sum([(lf[letter] * pt_freq[letter]) for letter in text])
+def correlation(lenguage, text, lf):
+    if lenguage == 1:
+        return sum([(lf[letter] * pt_freq[letter]) for letter in text])
+    else:
+        return sum([(lf[letter] * en_freq[letter]) for letter in text])
 
 
 # This function calculates each letter of the ciphertext's key
-def find_letter_key(text, lf):
+def find_letter_key(lenguage, text, lf):
     letter_key = ''
     max_cor = 0
 
     for count, letter in enumerate(string.ascii_lowercase):
         shifted = shift(text=text, amount=count)
-        cor = correlation(text=shifted, lf=lf)
+        cor = correlation(lenguage, text=shifted, lf=lf)
 
         if cor > max_cor:
             max_cor = cor
@@ -146,7 +183,7 @@ def find_letter_key(text, lf):
 
 
 # this method find the actual key
-def key_refactor(encripeted, key_len):
+def key_refactor(encripeted, key_len, lenguage):
     key = ''
     blocks, last_block = get_blocks(text=encripeted, size=key_len)
     columns, last_column = get_columns(blocks, last_block)
@@ -154,7 +191,7 @@ def key_refactor(encripeted, key_len):
 
     counter = 1
     for column in columns:
-        key += find_letter_key(text=column, lf=frequencies)
+        key += find_letter_key(lenguage, text=column, lf=frequencies)
         counter += 1
 
     return key

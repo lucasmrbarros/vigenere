@@ -17,7 +17,6 @@ while exit_flag == 0:
     if choice == 1:
         print('Digite o texto a ser cifrado:')
         plain_text = input()
-        #plain_text = str(plain_text).lower().replace(" ", "",).replace(".", "").replace(",", "")
         plain_text = re.sub(r'[^a-z\n]', '', plain_text.lower())
 
         print('Digite a chave: ')
@@ -45,7 +44,7 @@ while exit_flag == 0:
         encrypted_text = re.sub(r'[^a-z\n]', '', encrypted_text.lower())
 
         print('Valores muito distantes ou menores do tamanho da chave geram inconsistências')
-        print('Informe o valor maximo da chave: ')
+        print('Informe o tamanho maximo da chave: ')
 
         max_key_len = int(input())
 
